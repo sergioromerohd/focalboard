@@ -16,7 +16,7 @@ jobs:
   ubuntu:
     runs-on: ubuntu-22.04
     steps:
-    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+    - uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955
       with:
         path: "focalboard"
 
@@ -71,7 +71,7 @@ jobs:
     steps:
 
     - name: Checkout
-      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955
       with:
         path: "focalboard"
     - name: Replace token 1 server
@@ -108,14 +108,14 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955
       with:
         path: "focalboard"
     - name: Replace token 1 server
       run: sed -i -e "s,placeholder_rudder_dataplane_url,${{ secrets.RUDDER_DATAPLANE_URL }},g" ${{ github.workspace }}/focalboard/server/services/telemetry/telemetry.go
 
     - name: Add msbuild to PATH
-      uses: microsoft/setup-msbuild@v1.3
+      uses: microsoft/setup-msbuild@v2
 
     - name: npm ci
       run: cd focalboard/webapp; npm ci --no-optional
