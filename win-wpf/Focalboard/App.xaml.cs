@@ -12,7 +12,7 @@ using System.Threading;
 using System.Windows;
 using Windows.Storage;
 
-namespace Focalboard {
+namespace TDT_DBBASICO {
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
@@ -93,15 +93,15 @@ namespace Focalboard {
                 // Not a UWP app, store in Documents
 
                 // FIXUP code: Copy from old DB location
-                var oldDBPath = Path.Combine(documentsFolder, "focalboard.db");
-                var newDBPath = Path.Combine(appDataFolder, "focalboard.db");
+                var oldDBPath = Path.Combine(documentsFolder, "tdt-dbbasico.db");
+                var newDBPath = Path.Combine(appDataFolder, "tdt-dbbasico.db");
                 if (!File.Exists(newDBPath) && File.Exists(oldDBPath)) {
                     Debug.WriteLine($"Moving DB file from: {oldDBPath} to {newDBPath}");
                     File.Move(oldDBPath, newDBPath);
 				}
             }
 
-            var dbPath = Path.Combine(appDataFolder, "focalboard.db");
+            var dbPath = Path.Combine(appDataFolder, "tdt-dbbasico.db");
             Debug.WriteLine($"dbPath: {dbPath}");
 
             var filesPath = Path.Combine(appDataFolder, "files");
@@ -148,10 +148,10 @@ namespace Focalboard {
     }
 
     static class GoFunctions {
-        [DllImport(@"focalboard-server.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall)]
+        [DllImport(@"tdt-dbbasico-server.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall)]
         public static extern void StartServer(byte[] webPath, byte[] filesPath, int port, byte[] singleUserToken, byte[] dbConfigString, byte[] configFilePath);
 
-        [DllImport(@"focalboard-server.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall)]
+        [DllImport(@"tdt-dbbasico-server.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall)]
         public static extern void StopServer();
     }
 }

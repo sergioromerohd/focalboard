@@ -45,12 +45,12 @@ func runServer(port int) (*server.Server, error) {
 		ServerRoot:              fmt.Sprintf("http://localhost:%d", port),
 		Port:                    port,
 		DBType:                  "sqlite3",
-		DBConfigString:          path.Join(executableDir, "focalboard.db"),
+		DBConfigString:          path.Join(executableDir, "tdt-dbbasico.db"),
 		UseSSL:                  false,
 		SecureCookie:            true,
 		WebPath:                 path.Join(executableDir, "pack"),
 		FilesDriver:             "local",
-		FilesPath:               path.Join(executableDir, "focalboard_files"),
+		FilesPath:               path.Join(executableDir, "tdt-dbbasico_files"),
 		Telemetry:               true,
 		WebhookUpdate:           []string{},
 		SessionExpireTime:       259200000000,
@@ -127,10 +127,10 @@ func main() {
 		log.Fatal(err)
 	}
 
-	w.SetTitle("Focalboard")
+	w.SetTitle("TDT DBBASICO")
 	w.SetSize(1024, 768, webview.HintNone)
 
-	script := fmt.Sprintf("localStorage.setItem('focalboardSessionId', '%s');", sessionToken)
+	script := fmt.Sprintf("localStorage.setItem('tdtDbbasicoSessionId', '%s');", sessionToken)
 	w.Init(script)
 
 	w.Navigate(fmt.Sprintf("http://localhost:%d", port))

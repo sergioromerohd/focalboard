@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Input;
 using Microsoft.Web.WebView2.Core;
 
-namespace Focalboard {
+namespace TDT_DBBASICO {
 	/// <summary>
 	/// Interaction logic for MainWindow.xaml
 	/// </summary>
@@ -39,8 +39,8 @@ namespace Focalboard {
 
 		private void PromptToInstallWebview2() {
 			var dialogResult = MessageBox.Show(
-				"Focalboard requires the WebView2 runtime to be downloaded and installed. Install now?",
-				"Focalboard",
+				"TDT DBBASICO requires the WebView2 runtime to be downloaded and installed. Install now?",
+				"TDT DBBASICO",
 				MessageBoxButton.YesNo,
 				MessageBoxImage.Information,
 				MessageBoxResult.OK,
@@ -124,11 +124,11 @@ namespace Focalboard {
 				return;
 			}
 
-			this.Title = $"Focalboard (port {port} WebView {version})";
+			this.Title = $"TDT DBBASICO (port {port} WebView {version})";
 
 			// must create a data folder if running out of a secured folder that can't write like Program Files
 			var env = await CoreWebView2Environment.CreateAsync(
-				userDataFolder: Path.Combine(Path.GetTempPath(), "Focalboard")
+				userDataFolder: Path.Combine(Path.GetTempPath(), "TDT_DBBASICO")
 			);
 			await webView.EnsureCoreWebView2Async(env);
 
