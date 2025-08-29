@@ -5,9 +5,9 @@ services:
     build:
       context: ../
       dockerfile: docker/Dockerfile
-    container_name: focalboard
+    container_name: tdt-dbbasico
     depends_on:
-      - focalboard-db
+      - tdt-dbbasico-db
     expose:
       - 8000
     environment:
@@ -16,7 +16,7 @@ services:
       - VIRTUAL_PROTO=http
     volumes:
       - "./config.json:/opt/focalboard/config.json"
-      - fbdata:/opt/focalboard/data
+      - tdt-dbbasico-data:/opt/focalboard/data
     restart: always
     networks:
       - proxy
@@ -24,7 +24,7 @@ services:
 
   proxy:
     image: jwilder/nginx-proxy:latest
-    container_name: focalboard-proxy
+    container_name: tdt-dbbasico-proxy
     restart: always
     ports:
       - 80:80
@@ -33,9 +33,9 @@ services:
     networks:
       - proxy
 
-  focalboard-db:
+  tdt-dbbasico-db:
     image: postgres:latest
-    container_name: focalboard-postgres
+    container_name: tdt-dbbasico-postgres
     restart: always
     volumes:
       - pgdata:/var/lib/postgresql/data
@@ -45,7 +45,7 @@ services:
       POSTGRES_PASSWORD: boardsuser-password
 
 volumes:
-  fbdata:
+  tdt-dbbasico-data:
   pgdata:
 
 networks:
