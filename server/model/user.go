@@ -9,7 +9,7 @@ const (
 	SingleUser                    = "single-user"
 	GlobalTeamID                  = "0"
 	SystemUserID                  = "system"
-	PreferencesCategoryFocalboard = "focalboard"
+	PreferencesCategoryFocalboard = "tdt-dbbasico"
 )
 
 // User is a user
