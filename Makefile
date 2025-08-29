@@ -1,6 +1,6 @@
 .PHONY: prebuild clean cleanall ci server server-mac server-linux server-win server-linux-package generate watch-server webapp mac-app win-app-wpf linux-app modd-precheck templates-archive
 
-PACKAGE_FOLDER = focalboard
+PACKAGE_FOLDER = tdt-dbbasico
 
 # Build Flags
 BUILD_NUMBER ?= $(BUILD_NUMBER:)
@@ -43,58 +43,58 @@ templates-archive: ## Build templates archive file
 
 server: ## Build server for local environment.
 	$(eval LDFLAGS += -X "github.com/mattermost/focalboard/server/model.Edition=dev")
-	cd server; go build -ldflags '$(LDFLAGS)' -tags '$(BUILD_TAGS)' -o ../bin/focalboard-server ./main
+	cd server; go build -ldflags '$(LDFLAGS)' -tags '$(BUILD_TAGS)' -o ../bin/tdt-dbbasico-server ./main
 
 server-mac: ## Build server for Mac.
 	mkdir -p bin/mac
 	$(eval LDFLAGS += -X "github.com/mattermost/focalboard/server/model.Edition=mac")
 ifeq ($(FB_PROD),)
-	cd server; env GOOS=darwin GOARCH=$(MAC_GO_ARCH) go build -ldflags '$(LDFLAGS)' -tags '$(BUILD_TAGS)' -o ../bin/mac/focalboard-server ./main
+	cd server; env GOOS=darwin GOARCH=$(MAC_GO_ARCH) go build -ldflags '$(LDFLAGS)' -tags '$(BUILD_TAGS)' -o ../bin/mac/tdt-dbbasico-server ./main
 else
 # Always build x86 for production, to work on both Apple Silicon and legacy Macs
-	cd server; env GOOS=darwin GOARCH=amd64 CGO_ENABLED=1 go build -ldflags '$(LDFLAGS)' -tags '$(BUILD_TAGS)' -o ../bin/mac/focalboard-server ./main
+	cd server; env GOOS=darwin GOARCH=amd64 CGO_ENABLED=1 go build -ldflags '$(LDFLAGS)' -tags '$(BUILD_TAGS)' -o ../bin/mac/tdt-dbbasico-server ./main
 endif
 
 server-linux: ## Build server for Linux.
 	mkdir -p bin/linux
 	$(eval LDFLAGS += -X "github.com/mattermost/focalboard/server/model.Edition=linux")
-	cd server; env GOOS=linux GOARCH=$(arch) go build -ldflags '$(LDFLAGS)' -tags '$(BUILD_TAGS)' -o ../bin/linux/focalboard-server ./main
+	cd server; env GOOS=linux GOARCH=$(arch) go build -ldflags '$(LDFLAGS)' -tags '$(BUILD_TAGS)' -o ../bin/linux/tdt-dbbasico-server ./main
 
 server-docker: ## Build server for Docker Architectures.
 	mkdir -p bin/docker
 	$(eval LDFLAGS += -X "github.com/mattermost/focalboard/server/model.Edition=linux")
-	cd server; env GOOS=$(os) GOARCH=$(arch) go build -ldflags '$(LDFLAGS)' -tags '$(BUILD_TAGS)' -o ../bin/docker/focalboard-server ./main
+	cd server; env GOOS=$(os) GOARCH=$(arch) go build -ldflags '$(LDFLAGS)' -tags '$(BUILD_TAGS)' -o ../bin/docker/tdt-dbbasico-server ./main
 
 server-win: ## Build server for Windows.
 	$(eval LDFLAGS += -X "github.com/mattermost/focalboard/server/model.Edition=win")
-	cd server; env GOOS=windows GOARCH=amd64 go build -ldflags '$(LDFLAGS)' -tags '$(BUILD_TAGS)' -o ../bin/win/focalboard-server.exe ./main
+	cd server; env GOOS=windows GOARCH=amd64 go build -ldflags '$(LDFLAGS)' -tags '$(BUILD_TAGS)' -o ../bin/win/tdt-dbbasico-server.exe ./main
 
 server-dll: ## Build server as Windows DLL.
 	$(eval LDFLAGS += -X "github.com/mattermost/focalboard/server/model.Edition=win")
-	cd server; env GOOS=windows GOARCH=amd64 go build -ldflags '$(LDFLAGS)' -tags '$(BUILD_TAGS)' -buildmode=c-shared -o ../bin/win-dll/focalboard-server.dll ./main
+	cd server; env GOOS=windows GOARCH=amd64 go build -ldflags '$(LDFLAGS)' -tags '$(BUILD_TAGS)' -buildmode=c-shared -o ../bin/win-dll/tdt-dbbasico-server.dll ./main
 
 server-linux-package: server-linux webapp
 	rm -rf package
 	mkdir -p package/${PACKAGE_FOLDER}/bin
-	cp bin/linux/focalboard-server package/${PACKAGE_FOLDER}/bin
+	cp bin/linux/tdt-dbbasico-server package/${PACKAGE_FOLDER}/bin
 	cp -R webapp/pack package/${PACKAGE_FOLDER}/pack
 	cp server-config.json package/${PACKAGE_FOLDER}/config.json
 	cp NOTICE.txt package/${PACKAGE_FOLDER}
 	cp webapp/NOTICE.txt package/${PACKAGE_FOLDER}/webapp-NOTICE.txt
 	mkdir -p dist
-	cd package && tar -czvf ../dist/focalboard-server-linux-amd64.tar.gz ${PACKAGE_FOLDER}
+	cd package && tar -czvf ../dist/tdt-dbbasico-server-linux-amd64.tar.gz ${PACKAGE_FOLDER}
 	rm -rf package
 
 server-linux-package-docker:
 	rm -rf package
 	mkdir -p package/${PACKAGE_FOLDER}/bin
-	cp bin/linux/focalboard-server package/${PACKAGE_FOLDER}/bin
+	cp bin/linux/tdt-dbbasico-server package/${PACKAGE_FOLDER}/bin
 	cp -R webapp/pack package/${PACKAGE_FOLDER}/pack
 	cp server-config.json package/${PACKAGE_FOLDER}/config.json
 	cp NOTICE.txt package/${PACKAGE_FOLDER}
 	cp webapp/NOTICE.txt package/${PACKAGE_FOLDER}/webapp-NOTICE.txt
 	mkdir -p dist
-	cd package && tar -czvf ../dist/focalboard-server-linux-$(arch).tar.gz ${PACKAGE_FOLDER}
+	cd package && tar -czvf ../dist/tdt-dbbasico-server-linux-$(arch).tar.gz ${PACKAGE_FOLDER}
 	rm -rf package
 
 generate: ## Install and run code generators.
@@ -115,30 +115,30 @@ modd-precheck:
 	fi; \
 
 watch: modd-precheck ## Run both server and webapp watching for changes
-	env FOCALBOARD_BUILD_TAGS='$(BUILD_TAGS)' modd
+	env TDT_DBBASICO_BUILD_TAGS='$(BUILD_TAGS)' modd
 
 watch-single-user: modd-precheck ## Run both server and webapp in single user mode watching for changes
-	env FOCALBOARDSERVER_ARGS=--single-user FOCALBOARD_BUILD_TAGS='$(BUILD_TAGS)' modd
+	env TDT_DBBASICO_SERVER_ARGS=--single-user TDT_DBBASICO_BUILD_TAGS='$(BUILD_TAGS)' modd
 
 watch-server-test: modd-precheck ## Run server tests watching for changes
-	env FOCALBOARD_BUILD_TAGS='$(BUILD_TAGS)' modd -f modd-servertest.conf
+	env TDT_DBBASICO_BUILD_TAGS='$(BUILD_TAGS)' modd -f modd-servertest.conf
 
 server-test: server-test-sqlite server-test-mysql server-test-mariadb server-test-postgres ## Run server tests
 
-server-test-sqlite: export FOCALBOARD_UNIT_TESTING=1
+server-test-sqlite: export TDT_DBBASICO_UNIT_TESTING=1
 
 server-test-sqlite: ## Run server tests using sqlite
 	cd server; go test -tags '$(BUILD_TAGS)' -race -v -coverpkg=./... -coverprofile=server-sqlite-profile.coverage -count=1 -timeout=30m ./...
 	cd server; go tool cover -func server-sqlite-profile.coverage
 
-server-test-mini-sqlite: export FOCALBOARD_UNIT_TESTING=1
+server-test-mini-sqlite: export TDT_DBBASICO_UNIT_TESTING=1
 
 server-test-mini-sqlite: ## Run server tests using sqlite
 	cd server/integrationtests; go test -tags '$(BUILD_TAGS)' $(RACE) -v -count=1 -timeout=30m ./...
 
-server-test-mysql: export FOCALBOARD_UNIT_TESTING=1
-server-test-mysql: export FOCALBOARD_STORE_TEST_DB_TYPE=mysql
-server-test-mysql: export FOCALBOARD_STORE_TEST_DOCKER_PORT=44446
+server-test-mysql: export TDT_DBBASICO_UNIT_TESTING=1
+server-test-mysql: export TDT_DBBASICO_STORE_TEST_DB_TYPE=mysql
+server-test-mysql: export TDT_DBBASICO_STORE_TEST_DOCKER_PORT=44446
 
 server-test-mysql: ## Run server tests using mysql
 	@echo Starting docker container for mysql
@@ -148,9 +148,9 @@ server-test-mysql: ## Run server tests using mysql
 	cd server; go tool cover -func server-mysql-profile.coverage
 	docker compose -f ./docker-testing/docker-compose-mysql.yml down -v --remove-orphans
 
-server-test-mariadb: export FOCALBOARD_UNIT_TESTING=1
-server-test-mariadb: export FOCALBOARD_STORE_TEST_DB_TYPE=mariadb
-server-test-mariadb: export FOCALBOARD_STORE_TEST_DOCKER_PORT=44445
+server-test-mariadb: export TDT_DBBASICO_UNIT_TESTING=1
+server-test-mariadb: export TDT_DBBASICO_STORE_TEST_DB_TYPE=mariadb
+server-test-mariadb: export TDT_DBBASICO_STORE_TEST_DOCKER_PORT=44445
 
 server-test-mariadb: templates-archive ## Run server tests using mysql
 	@echo Starting docker container for mariadb
@@ -160,9 +160,9 @@ server-test-mariadb: templates-archive ## Run server tests using mysql
 	cd server; go tool cover -func server-mariadb-profile.coverage
 	docker compose -f ./docker-testing/docker-compose-mariadb.yml down -v --remove-orphans
 
-server-test-postgres: export FOCALBOARD_UNIT_TESTING=1
-server-test-postgres: export FOCALBOARD_STORE_TEST_DB_TYPE=postgres
-server-test-postgres: export FOCALBOARD_STORE_TEST_DOCKER_PORT=44447
+server-test-postgres: export TDT_DBBASICO_UNIT_TESTING=1
+server-test-postgres: export TDT_DBBASICO_STORE_TEST_DB_TYPE=postgres
+server-test-postgres: export TDT_DBBASICO_STORE_TEST_DOCKER_PORT=44447
 
 server-test-postgres: ## Run server tests using postgres
 	@echo Starting docker container for postgres
@@ -189,7 +189,7 @@ mac-app: server-mac webapp ## Build Mac application.
 	rm -rf mac/resources/bin
 	rm -rf mac/resources/pack
 	mkdir -p mac/resources/bin
-	cp bin/mac/focalboard-server mac/resources/bin/focalboard-server
+	cp bin/mac/tdt-dbbasico-server mac/resources/bin/tdt-dbbasico-server
 	cp app-config.json mac/resources/config.json
 	cp -R webapp/pack mac/resources/pack
 	mkdir -p mac/temp
@@ -211,14 +211,14 @@ linux-app: webapp ## Build Linux application.
 	rm -rf linux/temp
 	rm -rf linux/dist
 	mkdir -p linux/dist
-	mkdir -p linux/temp/focalboard-app
-	cp app-config.json linux/temp/focalboard-app/config.json
-	cp NOTICE.txt linux/temp/focalboard-app/
-	cp webapp/NOTICE.txt linux/temp/focalboard-app/webapp-NOTICE.txt
-	cp -R webapp/pack linux/temp/focalboard-app/pack
+	mkdir -p linux/temp/tdt-dbbasico-app
+	cp app-config.json linux/temp/tdt-dbbasico-app/config.json
+	cp NOTICE.txt linux/temp/tdt-dbbasico-app/
+	cp webapp/NOTICE.txt linux/temp/tdt-dbbasico-app/webapp-NOTICE.txt
+	cp -R webapp/pack linux/temp/tdt-dbbasico-app/pack
 	cd linux; make build
-	cp -R linux/bin/focalboard-app linux/temp/focalboard-app/
-	cd linux/temp; tar -zcf ../dist/focalboard-linux.tar.gz focalboard-app
+	cp -R linux/bin/tdt-dbbasico-app linux/temp/tdt-dbbasico-app/
+	cd linux/temp; tar -zcf ../dist/tdt-dbbasico-linux.tar.gz tdt-dbbasico-app
 	rm -rf linux/temp
 
 swagger: ## Generate swagger API spec and clients based on it.
@@ -241,7 +241,7 @@ clean: ## Clean build artifacts.
 	rm -rf mac/dist
 	rm -rf linux/dist
 	rm -rf win-wpf/msix
-	rm -f win-wpf/focalboard.msix
+	rm -f win-wpf/tdt-dbbasico.msix
 
 cleanall: clean ## Clean all build artifacts and dependencies.
 	rm -rf webapp/node_modules
