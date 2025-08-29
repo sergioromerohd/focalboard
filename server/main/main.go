@@ -100,9 +100,9 @@ func main() {
 
 	singleUserToken := ""
 	if singleUser {
-		singleUserToken = os.Getenv("FOCALBOARD_SINGLE_USER_TOKEN")
+		singleUserToken = os.Getenv("TDT_DBBASICO_SINGLE_USER_TOKEN")
 		if len(singleUserToken) < 1 {
-			logger.Fatal("The FOCALBOARD_SINGLE_USER_TOKEN environment variable must be set for single user mode ")
+			logger.Fatal("The TDT_DBBASICO_SINGLE_USER_TOKEN environment variable must be set for single user mode ")
 			return
 		}
 		logger.Info("Single user mode")

@@ -180,7 +180,7 @@ func (s *SQLStore) RunFixCollationsAndCharsetsMigration() error {
 	var collation string
 	var charSet string
 	var err error
-	if os.Getenv("FOCALBOARD_UNIT_TESTING") == "1" {
+	if os.Getenv("TDT_DBBASICO_UNIT_TESTING") == "1" {
 		collation = "utf8mb4_general_ci"
 		charSet = "utf8mb4"
 	} else {

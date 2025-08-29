@@ -5,9 +5,9 @@ import (
 	"strings"
 )
 
-// IsRunningUnitTests returns true if this instance of FocalBoard is running unit or integration tests.
+// IsRunningUnitTests returns true if this instance of TDT DBBASICO is running unit or integration tests.
 func IsRunningUnitTests() bool {
-	testing := os.Getenv("FOCALBOARD_UNIT_TESTING")
+	testing := os.Getenv("TDT_DBBASICO_UNIT_TESTING")
 	if testing == "" {
 		return false
 	}
